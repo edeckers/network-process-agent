@@ -19,6 +19,11 @@ namespace NetworkWatcher
             NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
         }
 
+        public static NetworkInterface[] GetAll()
+        {
+            return NetworkInterface.GetAllNetworkInterfaces();
+        }
+
         public static NetworkInterface GetById(string id)
         {
             return NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault(_ => _.Id == id);

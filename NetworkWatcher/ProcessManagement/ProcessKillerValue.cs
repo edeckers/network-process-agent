@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher
+namespace NetworkWatcher.ProcessManagement
 {
     class ProcessKillerValue
     {
