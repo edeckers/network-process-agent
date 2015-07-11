@@ -47,7 +47,10 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
                 var serializer = CreateSerializer();
                 var serializableRules = (List<SerializableRule>)serializer.Deserialize(fileStream);
 
-                return serializableRules.Select(_ => BuildRuleFromSerializedRule(_)).ToList();
+                return serializableRules
+                        .Select(_ => BuildRuleFromSerializedRule(_))
+                        .Where(_ => _ != null)
+                        .ToList();
             }
         }
 

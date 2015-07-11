@@ -22,6 +22,11 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
             });
         }
 
+        public void Clear()
+        {
+            _killerValues.Clear();
+        }
+
         public void Notify(NetworkInterface nic)
         {
             var killedProcessNames = new List<string>();
@@ -29,6 +34,11 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
             {
                 ProcessManager.KillProcessByName(killerValue.ProcessName);
                 killedProcessNames.Add(killerValue.ProcessName);
+            }
+
+            if (killedProcessNames.Count() == 0)
+            {
+                return;
             }
 
             ProcessesKilledEvent(new ProcessesKilledEventArgs(killedProcessNames));

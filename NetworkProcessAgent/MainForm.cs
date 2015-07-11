@@ -39,7 +39,7 @@ namespace ElyDeckers.NetworkProcessAgent
 
         private void OnProcessKilledEvent(ProcessKillerObserver.ProcessesKilledEventArgs e)
         {
-            _systrayManager.ShowBalloonTip("Processes killed", String.Join(",", e.ProcessNames));
+            _systrayManager.ShowBalloonTip("Processes killed", String.Join(", ", e.ProcessNames));
         }
 
         protected override void OnLoad(EventArgs e)
@@ -74,6 +74,8 @@ namespace ElyDeckers.NetworkProcessAgent
             {
                 lstNetworkInterfaceRules.Items.Add(new NetworkInterfaceRuleListViewItem(rule));
             }
+
+            BindRules(rules);
         }
 
         private void InitializeProcessKillerObserver()
@@ -114,14 +116,21 @@ namespace ElyDeckers.NetworkProcessAgent
 
             var networkInterface = ((NetworkInterfaceListViewItem)nicViewListItem).NetworkInterface;
 
-            _processKillerObserver.RegisterKillApplicationOnInterfaceUp(networkInterface, processName);
-
             _rules.Add(new NetworkWatcherRule(networkInterface, processName));
 
             RulesStorageProvider.Write(_rules);
 
             FillRulesList();
             txtProcessName.Clear();
+        }
+
+        private void BindRules(List<NetworkWatcherRule> rules)
+        {
+            _processKillerObserver.Clear();
+            foreach (var rule in rules)
+            {
+                _processKillerObserver.RegisterKillApplicationOnInterfaceUp(rule.NetworkInterface, rule.ProcessName);
+            }
         }
 
         private void RemoveNetworkWatcherRule(Guid ruleId)
