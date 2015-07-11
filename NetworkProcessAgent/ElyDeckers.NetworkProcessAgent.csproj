@@ -7,8 +7,8 @@
     <ProjectGuid>{7E76057C-E287-4ABD-B975-F6A92C60F4BD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetworkWatcher</RootNamespace>
-    <AssemblyName>NetworkWatcher</AssemblyName>
+    <RootNamespace>ElyDeckers.NetworkProcessAgent</RootNamespace>
+    <AssemblyName>NetworkProcessAgent</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -81,6 +81,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
