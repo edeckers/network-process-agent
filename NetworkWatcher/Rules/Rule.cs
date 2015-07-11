@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace ElyDeckers.NetworkWatcher.Rules
+namespace ElyDeckers.NetworkProcessAgent.Rules
 {
     public class NetworkWatcherRule
     {

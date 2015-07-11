@@ -1,5 +1,5 @@
-﻿using ElyDeckers.NetworkWatcher.UI;
-namespace ElyDeckers.NetworkWatcher
+﻿using ElyDeckers.NetworkProcessAgent.UI;
+namespace ElyDeckers.NetworkProcessAgent
 {
     partial class MainForm
     {
@@ -29,10 +29,11 @@ namespace ElyDeckers.NetworkWatcher
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.lstNetworkInterfaces = new System.Windows.Forms.ListBox();
             this.btnAddNetworkInterfaceRule = new System.Windows.Forms.Button();
-            this.txtProcessName = new ElyDeckers.NetworkWatcher.UI.PlaceholderTextBox() { PlaceholderText = "Process to be killed when interface comes up" };
             this.lstNetworkInterfaceRules = new System.Windows.Forms.ListBox();
+            this.txtProcessName = new ElyDeckers.NetworkProcessAgent.UI.PlaceholderTextBox();
             this.SuspendLayout();
             // 
             // lstNetworkInterfaces
@@ -53,15 +54,6 @@ namespace ElyDeckers.NetworkWatcher
             this.btnAddNetworkInterfaceRule.UseVisualStyleBackColor = true;
             this.btnAddNetworkInterfaceRule.Click += new System.EventHandler(this.btnAddNetworkInterfaceRule_Click);
             // 
-            // txtProcessName
-            // 
-            this.txtProcessName.Location = new System.Drawing.Point(12, 127);
-            this.txtProcessName.Name = "txtProcessName";
-            this.txtProcessName.PlaceholderText = null;
-            this.txtProcessName.Size = new System.Drawing.Size(366, 20);
-            this.txtProcessName.TabIndex = 2;
-            this.txtProcessName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProcessName_KeyDown);
-            // 
             // lstNetworkInterfaceRules
             // 
             this.lstNetworkInterfaceRules.FormattingEnabled = true;
@@ -70,6 +62,15 @@ namespace ElyDeckers.NetworkWatcher
             this.lstNetworkInterfaceRules.Size = new System.Drawing.Size(447, 95);
             this.lstNetworkInterfaceRules.TabIndex = 3;
             this.lstNetworkInterfaceRules.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstNetworkInterfaceRules_KeyDown);
+            // 
+            // txtProcessName
+            // 
+            this.txtProcessName.Location = new System.Drawing.Point(12, 127);
+            this.txtProcessName.Name = "txtProcessName";
+            this.txtProcessName.PlaceholderText = null;
+            this.txtProcessName.Size = new System.Drawing.Size(366, 20);
+            this.txtProcessName.TabIndex = 2;
+            this.txtProcessName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProcessName_KeyDown);
             // 
             // MainForm
             // 
@@ -81,9 +82,10 @@ namespace ElyDeckers.NetworkWatcher
             this.Controls.Add(this.btnAddNetworkInterfaceRule);
             this.Controls.Add(this.lstNetworkInterfaces);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "NIC Watcher";
+            this.Text = "Network Process Agent";
             this.ResumeLayout(false);
             this.PerformLayout();
 

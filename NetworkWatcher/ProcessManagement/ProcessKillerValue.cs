@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElyDeckers.NetworkWatcher.ProcessManagement
+namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
 {
     class ProcessKillerValue
     {

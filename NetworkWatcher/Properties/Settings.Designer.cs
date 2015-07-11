@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ElyDeckers.NetworkWatcher.Properties
+namespace ElyDeckers.NetworkProcessAgent.Properties
 {
 
 

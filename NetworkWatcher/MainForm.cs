@@ -1,6 +1,6 @@
-﻿using ElyDeckers.NetworkWatcher.ProcessManagement;
-using ElyDeckers.NetworkWatcher.Rules;
-using ElyDeckers.NetworkWatcher.UI;
+﻿using ElyDeckers.NetworkProcessAgent.ProcessManagement;
+using ElyDeckers.NetworkProcessAgent.Rules;
+using ElyDeckers.NetworkProcessAgent.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElyDeckers.NetworkWatcher
+namespace ElyDeckers.NetworkProcessAgent
 {
     public partial class MainForm : Form
     {
@@ -31,9 +31,15 @@ namespace ElyDeckers.NetworkWatcher
 
         private void Initialize() {
             _systrayManager.OnDoubleClick += OnSystrayDoubleClick;
+            _processKillerObserver.ProcessesKilledEvent += OnProcessKilledEvent;
             FillNetworkInterfaceList();
             InitializeProcessKillerObserver();
             FillRulesList();
+        }
+
+        private void OnProcessKilledEvent(ProcessKillerObserver.ProcessesKilledEventArgs e)
+        {
+            _systrayManager.ShowBalloonTip("Processes killed", String.Join(",", e.ProcessNames));
         }
 
         protected override void OnLoad(EventArgs e)
@@ -80,18 +86,30 @@ namespace ElyDeckers.NetworkWatcher
             TryAddNetworkRule();
         }
 
+        private void DisplayWarning(string title, string warning)
+        {
+            MessageBox.Show(
+              warning, 
+              title, 
+              MessageBoxButtons.OK,
+              MessageBoxIcon.Exclamation
+            );
+        }
+
         private void TryAddNetworkRule()
         {
             var nicViewListItem = lstNetworkInterfaces.SelectedItem;
             if (nicViewListItem == null)
             {
-                throw new Exception("Select a network interface");
+                DisplayWarning("Could not add rule", "Select a network interface");
+                return;
             }
 
             var processName = txtProcessName.Text;
             if (String.IsNullOrEmpty(processName))
             {
-                throw new Exception("Provide a process name");
+                DisplayWarning("Could not add rule", "Provide a process name");
+                return;
             }
 
             var networkInterface = ((NetworkInterfaceListViewItem)nicViewListItem).NetworkInterface;
@@ -150,12 +168,18 @@ namespace ElyDeckers.NetworkWatcher
                 var contextMenu = new ContextMenu();
                 contextMenu.MenuItems.Add("E&xit", OnMenuItemExitClick);
 
+                var applicationIcon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
+
                 _notifyIcon = new NotifyIcon();
                 _notifyIcon.Text = Application.ProductName;
-                _notifyIcon.Icon = new Icon(SystemIcons.Application, 40, 40);
+                _notifyIcon.Icon = new Icon(applicationIcon, 40, 40);
 
                 _notifyIcon.ContextMenu = contextMenu;
                 _notifyIcon.Visible = true;
+            }
+
+            public void ShowBalloonTip(string  title, string tip) {
+                _notifyIcon.ShowBalloonTip(4000, title, tip, ToolTipIcon.Info);
             }
 
             public event EventHandler OnDoubleClick

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElyDeckers.NetworkWatcher
+namespace ElyDeckers.NetworkProcessAgent
 {
     static class Program
     {

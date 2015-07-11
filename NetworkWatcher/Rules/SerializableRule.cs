@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElyDeckers.NetworkWatcher.Rules
+namespace ElyDeckers.NetworkProcessAgent.Rules
 {
     public class SerializableRule
     {
