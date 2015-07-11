@@ -33,7 +33,7 @@ namespace ElyDeckers.NetworkProcessAgent
             this.lstNetworkInterfaces = new System.Windows.Forms.ListBox();
             this.btnAddNetworkInterfaceRule = new System.Windows.Forms.Button();
             this.lstNetworkInterfaceRules = new System.Windows.Forms.ListBox();
-            this.txtProcessName = new ElyDeckers.NetworkProcessAgent.UI.PlaceholderTextBox();
+            this.txtProcessName = new ElyDeckers.NetworkProcessAgent.UI.PlaceholderTextBox() { PlaceholderText = "Name of the process to be killed when the selected interface comes online" };
             this.SuspendLayout();
             // 
             // lstNetworkInterfaces
