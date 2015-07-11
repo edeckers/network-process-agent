@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ namespace ElyDeckers.NetworkWatcher
 {
     public partial class MainForm : Form
     {
+        private readonly SystrayManager _systrayManager = new SystrayManager();
         private readonly NetworkInterfaceManager _nicManager = new NetworkInterfaceManager();
         private readonly ProcessKillerObserver _processKillerObserver = new ProcessKillerObserver();
         private List<NetworkWatcherRule> _rules = new List<NetworkWatcherRule>();
@@ -28,7 +30,7 @@ namespace ElyDeckers.NetworkWatcher
         }
 
         private void Initialize() {
-            InitializeSystray();
+            _systrayManager.OnDoubleClick += OnSystrayDoubleClick;
             FillNetworkInterfaceList();
             InitializeProcessKillerObserver();
             FillRulesList();
@@ -40,31 +42,6 @@ namespace ElyDeckers.NetworkWatcher
             ShowInTaskbar = false;
 
             base.OnLoad(e);
-        }
-
-        private void OnExit(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void InitializeSystray()
-        {
-            var trayMenu = new ContextMenu();
-            trayMenu.MenuItems.Add("Exit", OnExit);
-
-            var trayIcon = new NotifyIcon();
-            trayIcon.Text = "MyTrayApp";
-            trayIcon.Icon = new Icon(SystemIcons.Application, 40, 40);
-
-            trayIcon.ContextMenu = trayMenu;
-            trayIcon.Visible = true;
-
-            trayIcon.DoubleClick += trayIcon_DoubleClick;
-        }
-
-        void trayIcon_DoubleClick(object sender, EventArgs e)
-        {
-            Visible = true;
         }
 
         private void FillRulesList()
@@ -100,10 +77,15 @@ namespace ElyDeckers.NetworkWatcher
 
         private void btnAddNetworkInterfaceRule_Click(object sender, EventArgs e)
         {
+            TryAddNetworkRule();
+        }
+
+        private void TryAddNetworkRule()
+        {
             var nicViewListItem = lstNetworkInterfaces.SelectedItem;
             if (nicViewListItem == null)
             {
-                throw new Exception("Select an NIC");
+                throw new Exception("Select a network interface");
             }
 
             var processName = txtProcessName.Text;
@@ -112,15 +94,16 @@ namespace ElyDeckers.NetworkWatcher
                 throw new Exception("Provide a process name");
             }
 
-            var nic = ((NetworkInterfaceListViewItem)nicViewListItem).NetworkInterface;
+            var networkInterface = ((NetworkInterfaceListViewItem)nicViewListItem).NetworkInterface;
 
-            _processKillerObserver.RegisterKillApplicationOnInterfaceUp(nic, processName);
+            _processKillerObserver.RegisterKillApplicationOnInterfaceUp(networkInterface, processName);
 
-            _rules.Add(new NetworkWatcherRule(nic, processName));
+            _rules.Add(new NetworkWatcherRule(networkInterface, processName));
 
             RulesStorageProvider.Write(_rules);
 
             FillRulesList();
+            txtProcessName.Clear();
         }
 
         private void RemoveNetworkWatcherRule(Guid ruleId)
@@ -140,6 +123,51 @@ namespace ElyDeckers.NetworkWatcher
             var networkWatcherRuleItem = (NetworkInterfaceRuleListViewItem)lstNetworkInterfaceRules.SelectedItem;
             RemoveNetworkWatcherRule(networkWatcherRuleItem.RuleId);
             FillRulesList();
+        }
+
+        private void txtProcessName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+            {
+                return;
+            }
+
+            TryAddNetworkRule();
+        }
+
+        public void OnSystrayDoubleClick(object sender, EventArgs e)
+        {
+            Visible = true;
+            WindowState = FormWindowState.Normal;
+        }
+
+        private class SystrayManager
+        {
+            private NotifyIcon _notifyIcon;
+
+            public SystrayManager()
+            {
+                var contextMenu = new ContextMenu();
+                contextMenu.MenuItems.Add("E&xit", OnMenuItemExitClick);
+
+                _notifyIcon = new NotifyIcon();
+                _notifyIcon.Text = Application.ProductName;
+                _notifyIcon.Icon = new Icon(SystemIcons.Application, 40, 40);
+
+                _notifyIcon.ContextMenu = contextMenu;
+                _notifyIcon.Visible = true;
+            }
+
+            public event EventHandler OnDoubleClick
+            {
+                add { _notifyIcon.DoubleClick += value; }
+                remove { _notifyIcon.DoubleClick -= value; }
+            }
+
+            private static void OnMenuItemExitClick(object sender, EventArgs e)
+            {
+                Application.Exit();
+            }
         }
     }
 }
