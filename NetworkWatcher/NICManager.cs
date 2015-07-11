@@ -21,7 +21,10 @@ namespace NetworkWatcher
 
         public static NetworkInterface[] GetAll()
         {
-            return NetworkInterface.GetAllNetworkInterfaces();
+            return NetworkInterface.GetAllNetworkInterfaces()
+                    .Where(_ => _.NetworkInterfaceType != NetworkInterfaceType.Tunnel)
+                    .Where(_ => _.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                    .ToArray();
         }
 
         public static NetworkInterface GetById(string id)

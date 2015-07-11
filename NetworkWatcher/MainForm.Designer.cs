@@ -66,6 +66,7 @@
             this.lstNetworkInterfaceRules.Name = "lstNetworkInterfaceRules";
             this.lstNetworkInterfaceRules.Size = new System.Drawing.Size(447, 95);
             this.lstNetworkInterfaceRules.TabIndex = 3;
+            this.lstNetworkInterfaceRules.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstNetworkInterfaceRules_KeyDown);
             // 
             // MainForm
             // 

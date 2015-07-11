@@ -1,4 +1,5 @@
 ﻿using NetworkWatcher.ProcessManagement;
+using NetworkWatcher.Rules;
 using NetworkWatcher.UI;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace NetworkWatcher
     {
         private readonly NICManager _nicManager = new NICManager();
         private readonly ProcessKillerObserver _processKillerObserver = new ProcessKillerObserver();
+        private List<NetworkWatcherRule> _rules = new List<NetworkWatcherRule>();
 
         public MainForm()
         {
@@ -25,9 +27,16 @@ namespace NetworkWatcher
             Initialize();
         }
 
-        private void Initialize() {
+        private void Initialize()
+        {
             FillNetworkInterfaceList();
             InitializeProcessKillerObserver();
+            FillRulesList();
+        }
+
+        private void FillRulesList()
+        {
+            LoadRules(RulesStorageProvider.Read());
         }
 
         private void FillNetworkInterfaceList()
@@ -38,6 +47,16 @@ namespace NetworkWatcher
             foreach (var item in items)
             {
                 lstNetworkInterfaces.Items.Add(item);
+            }
+        }
+
+        private void LoadRules(List<NetworkWatcherRule> rules)
+        {
+            _rules = rules;
+            lstNetworkInterfaceRules.Items.Clear();
+            foreach (var rule in rules)
+            {
+                lstNetworkInterfaceRules.Items.Add(new NetworkInterfaceRuleListViewItem(rule));
             }
         }
 
@@ -64,7 +83,30 @@ namespace NetworkWatcher
 
             _processKillerObserver.RegisterKillApplicationOnInterfaceUp(nic, processName);
 
-            lstNetworkInterfaceRules.Items.Add(new NetworkInterfaceRuleListViewItem(nic, processName));
+            _rules.Add(new NetworkWatcherRule(nic, processName));
+
+            RulesStorageProvider.Write(_rules);
+
+            FillRulesList();
+        }
+
+        private void RemoveNetworkWatcherRule(Guid ruleId)
+        {
+            _rules = _rules.Where(_ => _.Id != ruleId).ToList();
+
+            RulesStorageProvider.Write(_rules);
+        }
+
+        private void lstNetworkInterfaceRules_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Delete)
+            {
+                return;
+            }
+
+            var networkWatcherRuleItem = (NetworkInterfaceRuleListViewItem)lstNetworkInterfaceRules.SelectedItem;
+            RemoveNetworkWatcherRule(networkWatcherRuleItem.RuleId);
+            FillRulesList();
         }
     }
 }

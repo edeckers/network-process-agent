@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetworkWatcher.Rules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -11,19 +12,19 @@ namespace NetworkWatcher.UI
     class NetworkInterfaceRuleListViewItem
     {
         private NetworkInterface _networkInterface;
-        private  string _process;
+        private NetworkWatcherRule _rule;
 
-        public NetworkInterfaceRuleListViewItem(NetworkInterface networkInterface, string process)
+        public NetworkInterfaceRuleListViewItem(NetworkWatcherRule rule)
         {
-            _networkInterface = networkInterface;
-            _process = process;
+            _networkInterface = rule.NetworkInterface;
+            _rule = rule;
         }
 
-        public string NetworkInterfaceId { get { return _networkInterface.Id;  } }
+        public Guid RuleId { get { return _rule.Id; } }
 
         public override string ToString()
         {
-            return String.Format("{0}: {1}", _networkInterface.Name, _process);
+            return String.Format("{0}: {1}", _networkInterface.Name, _rule.ProcessName);
         }
     }
 }
