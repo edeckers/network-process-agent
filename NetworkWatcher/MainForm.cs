@@ -1,6 +1,6 @@
-﻿using NetworkWatcher.ProcessManagement;
-using NetworkWatcher.Rules;
-using NetworkWatcher.UI;
+﻿using ElyDeckers.NetworkWatcher.ProcessManagement;
+using ElyDeckers.NetworkWatcher.Rules;
+using ElyDeckers.NetworkWatcher.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,11 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher
+namespace ElyDeckers.NetworkWatcher
 {
     public partial class MainForm : Form
     {
-        private readonly NICManager _nicManager = new NICManager();
+        private readonly NetworkInterfaceManager _nicManager = new NetworkInterfaceManager();
         private readonly ProcessKillerObserver _processKillerObserver = new ProcessKillerObserver();
         private List<NetworkWatcherRule> _rules = new List<NetworkWatcherRule>();
 
@@ -27,11 +27,44 @@ namespace NetworkWatcher
             Initialize();
         }
 
-        private void Initialize()
-        {
+        private void Initialize() {
+            InitializeSystray();
             FillNetworkInterfaceList();
             InitializeProcessKillerObserver();
             FillRulesList();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            Visible = false; 
+            ShowInTaskbar = false;
+
+            base.OnLoad(e);
+        }
+
+        private void OnExit(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void InitializeSystray()
+        {
+            var trayMenu = new ContextMenu();
+            trayMenu.MenuItems.Add("Exit", OnExit);
+
+            var trayIcon = new NotifyIcon();
+            trayIcon.Text = "MyTrayApp";
+            trayIcon.Icon = new Icon(SystemIcons.Application, 40, 40);
+
+            trayIcon.ContextMenu = trayMenu;
+            trayIcon.Visible = true;
+
+            trayIcon.DoubleClick += trayIcon_DoubleClick;
+        }
+
+        void trayIcon_DoubleClick(object sender, EventArgs e)
+        {
+            Visible = true;
         }
 
         private void FillRulesList()
@@ -41,7 +74,7 @@ namespace NetworkWatcher
 
         private void FillNetworkInterfaceList()
         {
-            var items = NICManager.GetAll().Select(_ => new NetworkInterfaceListViewItem(_)).ToList();
+            var items = NetworkInterfaceManager.GetAll().Select(_ => new NetworkInterfaceListViewItem(_)).ToList();
 
             lstNetworkInterfaces.Items.Clear();
             foreach (var item in items)

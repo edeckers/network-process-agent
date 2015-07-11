@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher
+namespace ElyDeckers.NetworkWatcher
 {
-    class NICManager
+    class NetworkInterfaceManager
     {
-        private List<INICObserver> _observers = new List<INICObserver>();
-        private Dictionary<string, string> _killProcessOnNICUp = new Dictionary<string, string>();
+        private List<INetworkInterfaceObserver> _observers = new List<INetworkInterfaceObserver>();
+        private Dictionary<string, string> _killProcessOnNetworkInterfaceUp = new Dictionary<string, string>();
 
-        public NICManager()
+        public NetworkInterfaceManager()
         {
             NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
         }
@@ -49,7 +49,7 @@ namespace NetworkWatcher
             }
         }
 
-        public void RegisterObserver(INICObserver observer)
+        public void RegisterObserver(INetworkInterfaceObserver observer)
         {
             _observers.Add(observer);
         }

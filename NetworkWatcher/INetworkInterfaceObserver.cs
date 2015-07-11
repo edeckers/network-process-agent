@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 
-namespace NetworkWatcher
+namespace ElyDeckers.NetworkWatcher
 {
-    interface INICObserver
+    interface INetworkInterfaceObserver
     {
         void Notify(NetworkInterface nic);
     }

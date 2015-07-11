@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace NetworkWatcher.Rules
+namespace ElyDeckers.NetworkWatcher.Rules
 {
     class RulesStorageProvider
     {
@@ -53,7 +53,7 @@ namespace NetworkWatcher.Rules
 
         private static NetworkWatcherRule BuildRuleFromSerializedRule(SerializableRule rule)
         {
-            var nic = NICManager.GetById(rule.NetworkInterfaceId);
+            var nic = NetworkInterfaceManager.GetById(rule.NetworkInterfaceId);
             if (nic == null)
             {
                 return null;

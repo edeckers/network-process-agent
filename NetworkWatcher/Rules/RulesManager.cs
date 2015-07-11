@@ -1,4 +1,4 @@
-﻿using NetworkWatcher.Rules;
+﻿using ElyDeckers.NetworkWatcher.Rules;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher
+namespace ElyDeckers.NetworkWatcher
 {
     class RulesManager
     {

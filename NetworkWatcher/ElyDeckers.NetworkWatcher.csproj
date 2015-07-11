@@ -51,7 +51,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="INICObserver.cs" />
+    <Compile Include="INetworkInterfaceObserver.cs" />
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rules\RulesStorageProvider.cs" />
     <Compile Include="Rules\RulesManager.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="ProcessManagement\ProcessKillerValue.cs" />
     <Compile Include="ProcessManagement\ProcessKillerObserver.cs" />
     <Compile Include="ProcessManagement\ProcessManager.cs" />
-    <Compile Include="NICManager.cs" />
+    <Compile Include="NetworkInterfaceManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">

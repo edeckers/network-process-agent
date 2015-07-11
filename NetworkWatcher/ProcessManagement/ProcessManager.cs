@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher.ProcessManagement
+namespace ElyDeckers.NetworkWatcher.ProcessManagement
 {
     class ProcessManager
     {

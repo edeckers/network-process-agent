@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher.UI
+namespace ElyDeckers.NetworkWatcher.UI
 {
     class NetworkInterfaceListViewItem
     {

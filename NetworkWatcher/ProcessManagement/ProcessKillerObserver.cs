@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NetworkWatcher.ProcessManagement
+namespace ElyDeckers.NetworkWatcher.ProcessManagement
 {
-    class ProcessKillerObserver : INICObserver
+    class ProcessKillerObserver : INetworkInterfaceObserver
     {
         private List<ProcessKillerValue> _killerValues = new List<ProcessKillerValue>();
 

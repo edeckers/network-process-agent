@@ -1,4 +1,4 @@
-﻿namespace NetworkWatcher
+﻿namespace ElyDeckers.NetworkWatcher
 {
     partial class MainForm
     {

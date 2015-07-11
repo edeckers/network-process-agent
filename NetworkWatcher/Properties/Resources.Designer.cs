@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NetworkWatcher.Properties
+namespace ElyDeckers.NetworkWatcher.Properties
 {
 
 

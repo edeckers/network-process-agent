@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NetworkWatcher.Rules
+namespace ElyDeckers.NetworkWatcher.Rules
 {
     public class NetworkWatcherRule
     {
@@ -25,7 +25,6 @@ namespace NetworkWatcher.Rules
         public NetworkInterface NetworkInterface { get { return _networkInterface; } }
         public Guid Id { get { return _id; } }
         public string NetworkInterfaceId { get { return NetworkInterface.Id; } }
-        public string NetworkInterfaceName { get { return _networkInterface.Name; } }
         public string ProcessName { get { return _processName; } }
     }
 }
