@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElyDeckers.NetworkProcessAgent.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -10,13 +11,13 @@ namespace ElyDeckers.NetworkProcessAgent.UI
 {
     class NetworkInterfaceListViewItem
     {
-        private NetworkInterface _networkInterface;
-        public NetworkInterfaceListViewItem(NetworkInterface networkInterface)
+        private NetworkProcessAgentNetworkInterface _networkInterface;
+        public NetworkInterfaceListViewItem(NetworkProcessAgentNetworkInterface networkInterface)
         {
             _networkInterface = networkInterface;
         }
 
-        public NetworkInterface NetworkInterface { get { return _networkInterface; } }
+        public NetworkProcessAgentNetworkInterface NetworkInterface { get { return _networkInterface; } }
         public string NetworkInterfaceId { get { return _networkInterface.Id;  } }
 
         public override string ToString()

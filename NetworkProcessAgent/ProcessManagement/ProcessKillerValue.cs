@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElyDeckers.NetworkProcessAgent.Network;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
 {
     class ProcessKillerValue
     {
-        public NetworkInterface NetworkInterface { get; set; }
+        public NetworkProcessAgentNetworkInterface NetworkInterface { get; set; }
         public string ProcessName { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ElyDeckers.NetworkProcessAgent.Rules;
+﻿using ElyDeckers.NetworkProcessAgent.Network;
+using ElyDeckers.NetworkProcessAgent.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ElyDeckers.NetworkProcessAgent.UI
 {
     class NetworkInterfaceRuleListViewItem
     {
-        private NetworkInterface _networkInterface;
+        private NetworkProcessAgentNetworkInterface _networkInterface;
         private NetworkProcessAgentRule _rule;
 
         public NetworkInterfaceRuleListViewItem(NetworkProcessAgentRule rule)

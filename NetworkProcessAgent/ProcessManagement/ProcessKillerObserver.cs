@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElyDeckers.NetworkProcessAgent.Network;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
     {
         private List<ProcessKillerValue> _killerValues = new List<ProcessKillerValue>();
 
-        public void RegisterKillApplicationOnInterfaceUp(NetworkInterface nic, string processName)
+        public void RegisterKillApplicationOnInterfaceUp(NetworkProcessAgentNetworkInterface nic, string processName)
         {
             _killerValues.Add(new ProcessKillerValue()
             {
