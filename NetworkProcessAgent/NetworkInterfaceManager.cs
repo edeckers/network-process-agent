@@ -11,12 +11,11 @@ namespace ElyDeckers.NetworkProcessAgent
 {
     class NetworkInterfaceManager
     {
-        private List<INetworkInterfaceObserver> _observers = new List<INetworkInterfaceObserver>();
         private Dictionary<string, string> _killProcessOnNetworkInterfaceUp = new Dictionary<string, string>();
 
         public NetworkInterfaceManager()
         {
-            NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
+            NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkStatusChanged);
         }
 
         public static NetworkInterface[] GetAll()
@@ -32,26 +31,30 @@ namespace ElyDeckers.NetworkProcessAgent
             return NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault(_ => _.Id == id);
         }
 
-        private void NetworkChange_NetworkAddressChanged(object sender, EventArgs e)
+        private void NetworkStatusChanged(object sender, EventArgs e)
         {
             NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface n in adapters)
             {
-                NotifyObservers(n);
+                NetworkInterfaceStatusChangedEvent(new NetworkInterfaceStatusChangedEventArgs(n));
             }
         }
 
-        private void NotifyObservers(NetworkInterface nic)
+
+        public class NetworkInterfaceStatusChangedEventArgs : EventArgs
         {
-            foreach (var observer in _observers)
+            private readonly NetworkInterface _networkInterface;
+            public NetworkInterfaceStatusChangedEventArgs(NetworkInterface networkInterface)
+                : base()
             {
-                observer.Notify(nic);
+                _networkInterface = networkInterface;
             }
+
+            public NetworkInterface NetworkInterface { get { return _networkInterface; } }
         }
 
-        public void RegisterObserver(INetworkInterfaceObserver observer)
-        {
-            _observers.Add(observer);
-        }
+        public delegate void NetworkInterfaceStatusChangedHandler(NetworkInterfaceStatusChangedEventArgs e);
+
+        public event NetworkInterfaceStatusChangedHandler NetworkInterfaceStatusChangedEvent;
     }
 }

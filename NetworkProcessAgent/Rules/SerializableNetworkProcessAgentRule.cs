@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElyDeckers.NetworkProcessAgent.Rules
 {
-    public class SerializableRule
+    public class SerializableNetworkProcessAgentRule
     {
-        public SerializableRule() { }
+        public SerializableNetworkProcessAgentRule() { }
 
         public string NetworkInterfaceId { get; set; }
         public string ProcessName { get; set; }

@@ -8,13 +8,13 @@ using System.Xml.Serialization;
 
 namespace ElyDeckers.NetworkProcessAgent.Rules
 {
-    public class NetworkWatcherRule
+    public class NetworkProcessAgentRule
     {
         private NetworkInterface _networkInterface;
         private string _processName;
         private Guid _id;
 
-        public NetworkWatcherRule(NetworkInterface nic, string processName)
+        public NetworkProcessAgentRule(NetworkInterface nic, string processName)
         {
             _id = Guid.NewGuid();
             _networkInterface = nic;

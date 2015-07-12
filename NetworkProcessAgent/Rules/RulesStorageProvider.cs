@@ -17,7 +17,7 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
     {
         private readonly static string _filepath = Application.StartupPath + "\\rules.xml";
 
-        public static void Write(List<NetworkWatcherRule> rules)
+        public static void Write(List<NetworkProcessAgentRule> rules)
         {
             using (var fileStream = new FileStream(_filepath, FileMode.Create)) {
                 var serializer = CreateSerializer();
@@ -32,20 +32,20 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
 
         private static XmlSerializer CreateSerializer()
         {
-            return new XmlSerializer(typeof(List<SerializableRule>));
+            return new XmlSerializer(typeof(List<SerializableNetworkProcessAgentRule>));
         }
 
-        public static List<NetworkWatcherRule> Read()
+        public static List<NetworkProcessAgentRule> Read()
         {
             if (!File.Exists(_filepath))
             {
-                return new List<NetworkWatcherRule> { };
+                return new List<NetworkProcessAgentRule> { };
             }
 
             using (var fileStream = new FileStream(_filepath, FileMode.Open))
             {
                 var serializer = CreateSerializer();
-                var serializableRules = (List<SerializableRule>)serializer.Deserialize(fileStream);
+                var serializableRules = (List<SerializableNetworkProcessAgentRule>)serializer.Deserialize(fileStream);
 
                 return serializableRules
                         .Select(_ => BuildRuleFromSerializedRule(_))
@@ -54,7 +54,7 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
             }
         }
 
-        private static NetworkWatcherRule BuildRuleFromSerializedRule(SerializableRule rule)
+        private static NetworkProcessAgentRule BuildRuleFromSerializedRule(SerializableNetworkProcessAgentRule rule)
         {
             var nic = NetworkInterfaceManager.GetById(rule.NetworkInterfaceId);
             if (nic == null)
@@ -62,12 +62,12 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
                 return null;
             }
 
-            return new NetworkWatcherRule(nic, rule.ProcessName);
+            return new NetworkProcessAgentRule(nic, rule.ProcessName);
         }
 
-        private static SerializableRule BuildSerializableRuleFromRule(NetworkWatcherRule rule)
+        private static SerializableNetworkProcessAgentRule BuildSerializableRuleFromRule(NetworkProcessAgentRule rule)
         {
-            return new SerializableRule()
+            return new SerializableNetworkProcessAgentRule()
             {
                 NetworkInterfaceId = rule.NetworkInterfaceId,
                 ProcessName = rule.ProcessName

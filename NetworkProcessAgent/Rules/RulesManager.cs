@@ -13,14 +13,14 @@ namespace ElyDeckers.NetworkProcessAgent
 {
     class RulesManager
     {
-        List<NetworkWatcherRule> _rules = new List<NetworkWatcherRule>();
+        List<NetworkProcessAgentRule> _rules = new List<NetworkProcessAgentRule>();
 
-        public List<NetworkWatcherRule> GetAll()
+        public List<NetworkProcessAgentRule> GetAll()
         {
             return _rules;
         }
 
-        public void Add(NetworkWatcherRule rule) {
+        public void Add(NetworkProcessAgentRule rule) {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
             config.Save(ConfigurationSaveMode.Modified);

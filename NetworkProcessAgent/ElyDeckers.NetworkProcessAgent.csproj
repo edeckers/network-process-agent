@@ -54,11 +54,10 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="INetworkInterfaceObserver.cs" />
-    <Compile Include="Rules\Rule.cs" />
+    <Compile Include="Rules\NetworkProcessAgentRule.cs" />
     <Compile Include="Rules\RulesStorageProvider.cs" />
     <Compile Include="Rules\RulesManager.cs" />
-    <Compile Include="Rules\SerializableRule.cs" />
+    <Compile Include="Rules\SerializableNetworkProcessAgentRule.cs" />
     <Compile Include="UI\NetworkInterfaceRuleListViewItem.cs" />
     <Compile Include="UI\NetworkInterfaceListViewItem.cs" />
     <Compile Include="ProcessManagement\ProcessKillerValue.cs" />

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
 {
-    class ProcessKillerObserver : INetworkInterfaceObserver
+    class ProcessKillerObserver
     {
         private List<ProcessKillerValue> _killerValues = new List<ProcessKillerValue>();
 
@@ -27,9 +27,10 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
             _killerValues.Clear();
         }
 
-        public void Notify(NetworkInterface nic)
+        public void Notify(NetworkInterfaceManager.NetworkInterfaceStatusChangedEventArgs e)
         {
             var killedProcessNames = new List<string>();
+            var nic = e.NetworkInterface;
             foreach (var killerValue in _killerValues.Where(_ => _.NetworkInterface.Id == nic.Id))
             {
                 ProcessManager.KillProcessByName(killerValue.ProcessName);

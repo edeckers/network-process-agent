@@ -12,9 +12,9 @@ namespace ElyDeckers.NetworkProcessAgent.UI
     class NetworkInterfaceRuleListViewItem
     {
         private NetworkInterface _networkInterface;
-        private NetworkWatcherRule _rule;
+        private NetworkProcessAgentRule _rule;
 
-        public NetworkInterfaceRuleListViewItem(NetworkWatcherRule rule)
+        public NetworkInterfaceRuleListViewItem(NetworkProcessAgentRule rule)
         {
             _networkInterface = rule.NetworkInterface;
             _rule = rule;

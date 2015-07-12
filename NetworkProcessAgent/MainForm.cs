@@ -20,7 +20,7 @@ namespace ElyDeckers.NetworkProcessAgent
         private readonly SystrayManager _systrayManager = new SystrayManager();
         private readonly NetworkInterfaceManager _nicManager = new NetworkInterfaceManager();
         private readonly ProcessKillerObserver _processKillerObserver = new ProcessKillerObserver();
-        private List<NetworkWatcherRule> _rules = new List<NetworkWatcherRule>();
+        private List<NetworkProcessAgentRule> _rules = new List<NetworkProcessAgentRule>();
 
         public MainForm()
         {
@@ -66,7 +66,7 @@ namespace ElyDeckers.NetworkProcessAgent
             }
         }
 
-        private void LoadRules(List<NetworkWatcherRule> rules)
+        private void LoadRules(List<NetworkProcessAgentRule> rules)
         {
             _rules = rules;
             lstNetworkInterfaceRules.Items.Clear();
@@ -80,7 +80,7 @@ namespace ElyDeckers.NetworkProcessAgent
 
         private void InitializeProcessKillerObserver()
         {
-            _nicManager.RegisterObserver(_processKillerObserver);
+            _nicManager.NetworkInterfaceStatusChangedEvent += _processKillerObserver.Notify;
         }
 
         private void btnAddNetworkInterfaceRule_Click(object sender, EventArgs e)
@@ -116,7 +116,7 @@ namespace ElyDeckers.NetworkProcessAgent
 
             var networkInterface = ((NetworkInterfaceListViewItem)nicViewListItem).NetworkInterface;
 
-            _rules.Add(new NetworkWatcherRule(networkInterface, processName));
+            _rules.Add(new NetworkProcessAgentRule(networkInterface, processName));
 
             RulesStorageProvider.Write(_rules);
 
@@ -124,7 +124,7 @@ namespace ElyDeckers.NetworkProcessAgent
             txtProcessName.Clear();
         }
 
-        private void BindRules(List<NetworkWatcherRule> rules)
+        private void BindRules(List<NetworkProcessAgentRule> rules)
         {
             _processKillerObserver.Clear();
             foreach (var rule in rules)
