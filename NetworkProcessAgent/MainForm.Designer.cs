@@ -86,6 +86,7 @@ namespace ElyDeckers.NetworkProcessAgent
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Network Process Agent";
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 

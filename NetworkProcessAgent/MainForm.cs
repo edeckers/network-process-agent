@@ -52,7 +52,16 @@ namespace ElyDeckers.NetworkProcessAgent
 
         private void FillRulesList()
         {
-            LoadRules(RulesStorageProvider.Read());
+            try
+            {
+                var rules = RulesStorageProvider.Read();
+
+                LoadRules(rules);
+            }
+            catch
+            {
+                DisplayWarning("Could not load rules", "Something went wrong reading rules from rules.xml");
+            }
         }
 
         private void FillNetworkInterfaceList()
@@ -200,6 +209,14 @@ namespace ElyDeckers.NetworkProcessAgent
             private static void OnMenuItemExitClick(object sender, EventArgs e)
             {
                 Application.Exit();
+            }
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Hide();
             }
         }
     }
