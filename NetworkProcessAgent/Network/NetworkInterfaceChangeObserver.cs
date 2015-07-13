@@ -1,4 +1,5 @@
 ﻿using ElyDeckers.NetworkProcessAgent.Network;
+using ElyDeckers.NetworkProcessAgent.ProcessManagement;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,17 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
+namespace ElyDeckers.NetworkProcessAgent.Network
 {
-    class ProcessKillerObserver
+    class NetworkInterfaceChangeObserver
     {
-        private List<ProcessKillerValue> _killerValues = new List<ProcessKillerValue>();
+        private List<ProcessKillerParameters> _killerValues = new List<ProcessKillerParameters>();
 
-        public void RegisterKillApplicationOnInterfaceUp(NetworkProcessAgentNetworkInterface nic, string processName)
+        public void RegisterKillProcessOnInterfaceUp(NetworkInterface networkInterface, string processName)
         {
-            _killerValues.Add(new ProcessKillerValue()
+            _killerValues.Add(new ProcessKillerParameters()
             {
-                NetworkInterface = nic,
+                NetworkInterface = networkInterface,
                 ProcessName = processName
             });
         }
@@ -31,10 +32,10 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
         public void Notify(NetworkInterfaceManager.NetworkInterfaceStatusChangedEventArgs e)
         {
             var killedProcessNames = new List<string>();
-            var nic = e.NetworkInterface;
-            foreach (var killerValue in _killerValues.Where(_ => _.NetworkInterface.Id == nic.Id))
+            var networkInterface = e.NetworkInterface;
+            foreach (var killerValue in _killerValues.Where(_ => _.NetworkInterface.Id == networkInterface.Id))
             {
-                ProcessManager.KillProcessByName(killerValue.ProcessName);
+                KillProcessByName(killerValue.ProcessName);
                 killedProcessNames.Add(killerValue.ProcessName);
             }
 
@@ -44,6 +45,14 @@ namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
             }
 
             ProcessesKilledEvent(new ProcessesKilledEventArgs(killedProcessNames));
+        }
+
+        private void KillProcessByName(string processName)
+        {
+            foreach (var proc in Process.GetProcessesByName(processName))
+            {
+                proc.Kill();
+            }
         }
 
         public class ProcessesKilledEventArgs : EventArgs

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ElyDeckers.NetworkProcessAgent.Network
 {
-    public class NetworkProcessAgentNetworkInterface
+    public class NetworkInterface
     {
         private  string _id;
         private string _name;
 
-        public NetworkProcessAgentNetworkInterface(string id, string name) {
+        public NetworkInterface(string id, string name) {
             _id = id;
             _name = name;
         }

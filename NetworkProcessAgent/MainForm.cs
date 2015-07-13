@@ -1,4 +1,5 @@
-﻿using ElyDeckers.NetworkProcessAgent.ProcessManagement;
+﻿using ElyDeckers.NetworkProcessAgent.Network;
+using ElyDeckers.NetworkProcessAgent.ProcessManagement;
 using ElyDeckers.NetworkProcessAgent.Rules;
 using ElyDeckers.NetworkProcessAgent.UI;
 using System;
@@ -19,7 +20,7 @@ namespace ElyDeckers.NetworkProcessAgent
     {
         private readonly SystrayManager _systrayManager = new SystrayManager();
         private readonly NetworkInterfaceManager _nicManager = new NetworkInterfaceManager();
-        private readonly ProcessKillerObserver _processKillerObserver = new ProcessKillerObserver();
+        private readonly NetworkInterfaceChangeObserver _networkInterfaceChangeObserver = new NetworkInterfaceChangeObserver();
         private List<NetworkProcessAgentRule> _rules = new List<NetworkProcessAgentRule>();
 
         public MainForm()
@@ -31,13 +32,13 @@ namespace ElyDeckers.NetworkProcessAgent
 
         private void Initialize() {
             _systrayManager.OnDoubleClick += OnSystrayDoubleClick;
-            _processKillerObserver.ProcessesKilledEvent += OnProcessKilledEvent;
+            _networkInterfaceChangeObserver.ProcessesKilledEvent += OnProcessKilledEvent;
             FillNetworkInterfaceList();
             InitializeProcessKillerObserver();
             FillRulesList();
         }
 
-        private void OnProcessKilledEvent(ProcessKillerObserver.ProcessesKilledEventArgs e)
+        private void OnProcessKilledEvent(NetworkInterfaceChangeObserver.ProcessesKilledEventArgs e)
         {
             _systrayManager.ShowBalloonTip("Processes killed", String.Join(", ", e.ProcessNames));
         }
@@ -89,7 +90,7 @@ namespace ElyDeckers.NetworkProcessAgent
 
         private void InitializeProcessKillerObserver()
         {
-            _nicManager.NetworkInterfaceStatusChangedEvent += _processKillerObserver.Notify;
+            _nicManager.NetworkInterfaceStatusChangedEvent += _networkInterfaceChangeObserver.Notify;
         }
 
         private void btnAddNetworkInterfaceRule_Click(object sender, EventArgs e)
@@ -135,10 +136,10 @@ namespace ElyDeckers.NetworkProcessAgent
 
         private void BindRules(List<NetworkProcessAgentRule> rules)
         {
-            _processKillerObserver.Clear();
+            _networkInterfaceChangeObserver.Clear();
             foreach (var rule in rules)
             {
-                _processKillerObserver.RegisterKillApplicationOnInterfaceUp(rule.NetworkInterface, rule.ProcessName);
+                _networkInterfaceChangeObserver.RegisterKillProcessOnInterfaceUp(rule.NetworkInterface, rule.ProcessName);
             }
         }
 

@@ -11,11 +11,11 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
 {
     public class NetworkProcessAgentRule
     {
-        private NetworkProcessAgentNetworkInterface _networkInterface;
+        private Network.NetworkInterface _networkInterface;
         private string _processName;
         private Guid _id;
 
-        public NetworkProcessAgentRule(NetworkProcessAgentNetworkInterface nic, string processName)
+        public NetworkProcessAgentRule(Network.NetworkInterface nic, string processName)
         {
             _id = Guid.NewGuid();
             _networkInterface = nic;
@@ -23,7 +23,7 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
         }
 
         [XmlIgnore]
-        public NetworkProcessAgentNetworkInterface NetworkInterface { get { return _networkInterface; } }
+        public Network.NetworkInterface NetworkInterface { get { return _networkInterface; } }
         public Guid Id { get { return _id; } }
         public string NetworkInterfaceId { get { return NetworkInterface.Id; } }
         public string ProcessName { get { return _processName; } }

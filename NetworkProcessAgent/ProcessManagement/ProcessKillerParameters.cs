@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElyDeckers.NetworkProcessAgent.Network;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,14 +10,9 @@ using System.Windows.Forms;
 
 namespace ElyDeckers.NetworkProcessAgent.ProcessManagement
 {
-    class ProcessManager
+    class ProcessKillerParameters
     {
-        public static void KillProcessByName(string processName)
-        {
-            foreach (var proc in Process.GetProcessesByName(processName))
-            {
-                proc.Kill();
-            }
-        }
+        public Network.NetworkInterface NetworkInterface { get; set; }
+        public string ProcessName { get; set; }
     }
 }

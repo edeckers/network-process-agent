@@ -62,13 +62,11 @@
     <Compile Include="Network\NetworkProcessAgentNetworkInterface.cs" />
     <Compile Include="Rules\NetworkProcessAgentRule.cs" />
     <Compile Include="Rules\RulesStorageProvider.cs" />
-    <Compile Include="Rules\RulesManager.cs" />
     <Compile Include="Rules\SerializableNetworkProcessAgentRule.cs" />
     <Compile Include="UI\NetworkInterfaceRuleListViewItem.cs" />
     <Compile Include="UI\NetworkInterfaceListViewItem.cs" />
-    <Compile Include="ProcessManagement\ProcessKillerValue.cs" />
-    <Compile Include="ProcessManagement\ProcessKillerObserver.cs" />
-    <Compile Include="ProcessManagement\ProcessManager.cs" />
+    <Compile Include="ProcessManagement\ProcessKillerParameters.cs" />
+    <Compile Include="Network\NetworkInterfaceChangeObserver.cs" />
     <Compile Include="NetworkInterfaceManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

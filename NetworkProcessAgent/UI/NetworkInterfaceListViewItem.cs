@@ -11,13 +11,13 @@ namespace ElyDeckers.NetworkProcessAgent.UI
 {
     class NetworkInterfaceListViewItem
     {
-        private NetworkProcessAgentNetworkInterface _networkInterface;
-        public NetworkInterfaceListViewItem(NetworkProcessAgentNetworkInterface networkInterface)
+        private Network.NetworkInterface _networkInterface;
+        public NetworkInterfaceListViewItem(Network.NetworkInterface networkInterface)
         {
             _networkInterface = networkInterface;
         }
 
-        public NetworkProcessAgentNetworkInterface NetworkInterface { get { return _networkInterface; } }
+        public Network.NetworkInterface NetworkInterface { get { return _networkInterface; } }
         public string NetworkInterfaceId { get { return _networkInterface.Id;  } }
 
         public override string ToString()
