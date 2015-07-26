@@ -23,7 +23,7 @@ namespace ElyDeckers.NetworkProcessAgent
 
         public static Network.NetworkInterface[] GetAll()
         {
-            return GetAllNetworkAdapters().ToArray();
+            return GetAllInterfaces().ToArray();
         }
 
         private static Dictionary<Guid, string> GetRASIdNameDictionary()
@@ -40,7 +40,7 @@ namespace ElyDeckers.NetworkProcessAgent
             return dictionary;
         }
 
-        private static List<Network.NetworkInterface> GetAllNetworkAdapters()
+        private static List<Network.NetworkInterface> GetAllRASInterfaces()
         {
             var rasDictionary = GetRASIdNameDictionary();
 
@@ -51,9 +51,32 @@ namespace ElyDeckers.NetworkProcessAgent
             }).ToList();
         }
 
+        private static List<Network.NetworkInterface> GetAllRegularInterfaces()
+        {
+            var networkInterfaces = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
+
+            return networkInterfaces
+                .Where(_ => _.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                .Where(_ => _.NetworkInterfaceType != NetworkInterfaceType.Tunnel)
+                .Select(_ => new Network.NetworkInterface(_.Id, _.Name)).ToList();
+        }
+
+        private static List<Network.NetworkInterface> GetAllInterfaces()
+        {
+            var rasInterfaces = GetAllRASInterfaces();
+            var regularInterfaces = GetAllRegularInterfaces();
+
+            var allInterfaces = rasInterfaces.Concat(regularInterfaces);
+
+            return allInterfaces
+                .GroupBy(_ => _.Id)
+                .Select(_ => _.First())
+                .ToList();
+        }
+
         public static Network.NetworkInterface GetById(string id)
         {
-            return GetAllNetworkAdapters().FirstOrDefault(_ => _.Id == id);
+            return GetAllInterfaces().FirstOrDefault(_ => _.Id == id);
         }
         
         private void NetworkStatusChanged(object sender, EventArgs e)
@@ -66,7 +89,6 @@ namespace ElyDeckers.NetworkProcessAgent
                 NetworkInterfaceStatusChangedEvent(new NetworkInterfaceStatusChangedEventArgs(networkInterface));
             }
         }
-
 
         public class NetworkInterfaceStatusChangedEventArgs : EventArgs
         {
