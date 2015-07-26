@@ -33,9 +33,17 @@ namespace ElyDeckers.NetworkProcessAgent
         private void Initialize() {
             _systrayManager.OnDoubleClick += OnSystrayDoubleClick;
             _networkInterfaceChangeObserver.ProcessesKilledEvent += OnProcessKilledEvent;
+            InitializeProcessPlaceholder();
             FillNetworkInterfaceList();
             InitializeProcessKillerObserver();
             FillRulesList();
+        }
+
+        private void InitializeProcessPlaceholder()
+        {
+           // txtProcessName = new ElyDeckers.NetworkProcessAgent.UI.PlaceholderTextBox() { PlaceholderText = "Name of the process to be killed when the selected interface comes online" };
+
+
         }
 
         private void OnProcessKilledEvent(NetworkInterfaceChangeObserver.ProcessesKilledEventArgs e)
