@@ -184,7 +184,9 @@ namespace ElyDeckers.NetworkProcessAgent
         {
             Visible = true;
             WindowState = FormWindowState.Normal;
-            BringToFront();
+            TopMost = true;
+            TopMost = false;
+            Focus();
         }
 
         private class SystrayManager
