@@ -15,7 +15,7 @@ namespace ElyDeckers.NetworkProcessAgent.Rules
 {
     class RulesStorageProvider
     {
-        private readonly static string _filepath = Application.StartupPath + "\\rules.xml";
+        private readonly static string _filepath = Path.Combine(Application.CommonAppDataPath, "rules.xml");
 
         public static void Write(List<NetworkProcessAgentRule> rules)
         {
